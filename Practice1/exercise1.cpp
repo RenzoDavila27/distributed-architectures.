@@ -70,9 +70,9 @@ void logaritmo_con_hilos(long double a, int thr){
 
         c = terms * (i+1);
 
-        thread_array.emplace_back(thread(operations, x, b, c));
+        thread_array.emplace_back(thread(operations, x, b, c+1));
         
-        b = c;
+        b = c+1;
     }
 
     for(int i = 0; i < thr; i++){
