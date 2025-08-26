@@ -14,33 +14,6 @@ using namespace std;
 
 long double global_result;
 
-// ----------------------------
-// Declaración de funciones
-// ----------------------------
-long double logaritmo_sin_hilos(long double a);
-
-
-// ----------------------------
-// Definición de funciones
-// ----------------------------
-
-long double logaritmo_sin_hilos(long double a) {
-    
-    timeval time1, time2;
-    gettimeofday(&time1, NULL);  // inicio
-    long double result=0;
-    long double x = (a - 1) / (a + 1);
-
-    for (int i = 0; i < 10000000; i++) {
-        result += (1.0/(2.0*i+1.0))*(pow(x,2*i+1));
-    }
-    gettimeofday(&time2, NULL);  // fin
-    double tiempo = (time2.tv_sec - time1.tv_sec) + 
-                    (time2.tv_usec - time1.tv_usec) / 1000000.0;
-    cout << "Tiempo de ejecución: " << tiempo << " segundos" << endl;
-    return 2*result;
-}
-
 void operations(long double x, long double start, long double end){
 
     long double result=0;
@@ -108,12 +81,8 @@ int main() {
         cout << "Ingrese nuevamente el numero de hilos (numero!!!)" << endl;
         cin >> operando;
     }
-    //resultado = logaritmo_sin_hilos(operando);
+
     logaritmo_con_hilos(operando,thr);
-    //cout << "El resultado es " << setprecision(15) << resultado << endl;
     cout << "El resultado es " << setprecision(15) << 2*global_result << endl;
-    double tpar = 1.0795;
-    double tseq = 3.45942;
-    double speedup = tseq/tpar;
 }  
 
