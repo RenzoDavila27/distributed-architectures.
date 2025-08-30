@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <sys/time.h>
+#include <thread>
 using namespace std;
 
 vector<vector<float>> resultado;
@@ -45,7 +46,7 @@ void imprimir_matriz(vector<vector<float>> matriz, int n) {
 }
 
 int main() {
-    int n;
+    int n, thr;
     float x1, x2;
 
     cout << "Ingrese el tamaño que tendran ambas matrices (n): ";
@@ -60,7 +61,7 @@ int main() {
     timeval time1, time2;
     gettimeofday(&time1, NULL);
 
-    resultado(n, vector<float>(n, 0.0f));
+    resultado.resize(n, vector<float>(n, 0.0f));
 
     vector<vector<float>> matriz1 = crearMatriz(n, x1);
     vector<vector<float>> matriz2 = crearMatriz(n, x2);
@@ -69,16 +70,16 @@ int main() {
     if (thr > n){
         thr = n;
     }
-    vector <int> filasxHilo(n, 0.0f);
+    vector <int> filasxHilo(thr, 0);
     int filasRestantes = n, i = 0;
     bool repartidos = false;
-    while repartidos == false{
+    while (repartidos == false){
         filasxHilo[i] += 1;
         filasRestantes -= 1;
         i++;
         if (filasRestantes == 0){
             repartidos = true;
-        } else if (i == n){
+        } else if (i == thr){
             i = 0;
         }
     }
@@ -91,6 +92,8 @@ int main() {
         a = b;
     }
 
+    for (auto &t : thread_array) t.join();
+
     imprimir_matriz(resultado, n);
 
     float suma = sumatoria_elementos_matriz(resultado, n);
@@ -102,3 +105,4 @@ int main() {
     cout << "Tiempo de ejecución: " << tiempo << " segundos" << endl;
 
     return 0;
+}
