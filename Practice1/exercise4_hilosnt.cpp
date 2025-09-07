@@ -22,7 +22,7 @@ int main() {
     while (true) {
         cout << "Ingrese un valor para N (>10⁷): ";
         cin >> N;
-        if (N > 10000000) break;
+        if (N >= 10000000) break;
     }
 
     timeval time1, time2;
