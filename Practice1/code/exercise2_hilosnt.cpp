@@ -4,7 +4,9 @@
 #include <vector>
 #include <sys/time.h>
 
-void busqueda_sin_hilos(std::string texto, std::vector<std::string> patrones){
+std::string linea;
+
+void busqueda_sin_hilos(std::vector<std::string> patrones){
 
     int contadorOcurrencias;
     int contadorPatrones = -1;
@@ -17,7 +19,7 @@ void busqueda_sin_hilos(std::string texto, std::vector<std::string> patrones){
         contadorOcurrencias = 0;
         pos = 0;
 
-        while ((pos = texto.find(patron, pos)) != std::string::npos) {
+        while ((pos = linea.find(patron, pos)) != std::string::npos) {
             contadorOcurrencias++;
             pos += patron.length();
         }
@@ -30,8 +32,7 @@ int main() {
 
 
     std::ifstream texto("texto.txt");
-    std::string linea;
-
+    
     timeval time1, time2;
     gettimeofday(&time1, NULL);
 
@@ -55,7 +56,7 @@ int main() {
     
     patrones.close();
 
-    busqueda_sin_hilos(linea, patrones_extraidos);
+    busqueda_sin_hilos(patrones_extraidos);
 
     gettimeofday(&time2, NULL);
     double tiempo = (time2.tv_sec - time1.tv_sec) + 

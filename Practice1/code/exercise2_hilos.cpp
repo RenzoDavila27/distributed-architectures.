@@ -5,7 +5,9 @@
 #include <sys/time.h>
 #include <thread>
 
-void operation(std::string linea, std::string patron, int nroPatron){
+std::string linea;
+
+void operation(std::string patron, int nroPatron){
 
     int contadorOcurrencias = 0;
     int pos = 0;
@@ -17,13 +19,13 @@ void operation(std::string linea, std::string patron, int nroPatron){
     std::cout << "El patron " << nroPatron << " (" << patron << ") "<< " aparece " << contadorOcurrencias << " veces." << std::endl;
 }
 
-void busqueda_con_hilos(std::string texto, std::vector<std::string> patrones){
+void busqueda_con_hilos( std::vector<std::string> patrones){
     
     std::vector<std::thread> thread_array;
     
     for(int i=0;i<32;i++){
 
-        thread_array.emplace_back(std::thread(operation, texto, patrones[i], i));
+        thread_array.emplace_back(std::thread(operation, patrones[i], i));
 
     }
 
@@ -40,7 +42,6 @@ int main() {
 
 
     std::ifstream texto("texto.txt");
-    std::string linea;
 
     timeval time1, time2;
     gettimeofday(&time1, NULL);
@@ -65,7 +66,7 @@ int main() {
     
     patrones.close();
 
-    busqueda_con_hilos(linea, patrones_extraidos);
+    busqueda_con_hilos(patrones_extraidos);
 
     gettimeofday(&time2, NULL);
     double tiempo = (time2.tv_sec - time1.tv_sec) + 
